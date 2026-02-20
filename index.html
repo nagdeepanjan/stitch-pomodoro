@@ -85,11 +85,11 @@
 <!-- Main Content -->
 <div class="flex-1 flex flex-col items-center overflow-y-auto pb-24 md:pb-12">
 <header class="w-full max-w-4xl flex flex-col items-center gap-2 mt-8 md:mt-12">
-<div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+<div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20" id="mode-badge">
 <span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
-<span class="text-primary text-xs font-bold uppercase tracking-widest">Focus Session</span>
+<span class="text-primary text-xs font-bold uppercase tracking-widest" id="mode-badge-text">Focus Session</span>
 </div>
-<h1 class="text-3xl md:text-4xl font-bold tracking-tight mt-2">Deep Work</h1>
+<h1 class="text-3xl md:text-4xl font-bold tracking-tight mt-2" id="mode-title">Deep Work</h1>
 </header>
 <main class="relative flex flex-col items-center justify-center w-full max-w-4xl py-8 md:py-16">
 <div class="relative flex items-center justify-center">
@@ -191,13 +191,109 @@
     const progressRing = document.getElementById('progress-ring');
     const startBtn = document.getElementById('start-btn');
     const resetBtn = document.getElementById('reset-btn');
-    
+
     const focusVal = document.getElementById('focus-val');
     const shortVal = document.getElementById('short-val');
     const longVal = document.getElementById('long-val');
 
     let timerInterval;
     let isRunning = false;
+    let bellTimeout = null;
+
+    function playBellSound() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const duration = 5;
+        const bellStrikes = [0, 0.8, 1.6, 2.4, 3.2];
+
+        bellStrikes.forEach((strikeTime) => {
+            const partials = [
+                { freq: 830, gain: 0.6 },
+                { freq: 1245, gain: 0.4 },
+                { freq: 1665, gain: 0.25 },
+                { freq: 2080, gain: 0.15 },
+                { freq: 2510, gain: 0.1 },
+            ];
+
+            partials.forEach((partial) => {
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = partial.freq;
+                gainNode.gain.setValueAtTime(partial.gain * 0.3, audioCtx.currentTime + strikeTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + strikeTime + 1.4);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + strikeTime);
+                osc.stop(audioCtx.currentTime + strikeTime + 1.5);
+            });
+        });
+
+        if (bellTimeout) clearTimeout(bellTimeout);
+        bellTimeout = setTimeout(() => {
+            audioCtx.close();
+            bellTimeout = null;
+        }, (duration + 0.5) * 1000);
+    }
+    const modeBadgeText = document.getElementById('mode-badge-text');
+    const modeTitle = document.getElementById('mode-title');
+    const audioToggle = document.getElementById('audio-toggle');
+    const desktopAudioToggle = document.getElementById('desktop-audio-toggle');
+
+    const modeConfig = {
+        focus: { badge: 'Focus Session', title: 'Deep Work' },
+        short: { badge: 'Short Break', title: 'Take a Breather' },
+        long:  { badge: 'Long Break',  title: 'Recharge' },
+    };
+
+    // Sync the two audio toggles
+    if (audioToggle && desktopAudioToggle) {
+        audioToggle.addEventListener('change', () => { desktopAudioToggle.checked = audioToggle.checked; });
+        desktopAudioToggle.addEventListener('change', () => { audioToggle.checked = desktopAudioToggle.checked; });
+    }
+
+    function isTickEnabled() {
+        if (audioToggle) return audioToggle.checked;
+        if (desktopAudioToggle) return desktopAudioToggle.checked;
+        return false;
+    }
+
+    // Clock tick using Web Audio API
+    let tickAudioCtx = null;
+    function playTickSound() {
+        if (!isTickEnabled()) return;
+        if (!tickAudioCtx || tickAudioCtx.state === 'closed') {
+            tickAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        const ctx = tickAudioCtx;
+        if (ctx.state === 'suspended') ctx.resume();
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 800;
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.06);
+    }
+
+    function updateModeDisplay() {
+        const config = modeConfig[currentMode];
+        modeBadgeText.textContent = config.badge;
+        modeTitle.textContent = config.title;
+
+        // Update card highlights
+        document.querySelectorAll('section.grid > div').forEach(el => {
+            el.classList.remove('border-primary', 'border-primary/50');
+        });
+        const activeCard = document.getElementById(`${currentMode}-val`);
+        if (activeCard) {
+            activeCard.closest('.group').classList.add('border-primary');
+        }
+    }
+
     let currentMode = 'focus'; // 'focus', 'short', 'long'
     let timeLeft = parseInt(focusVal.textContent) * 60;
     let totalTime = timeLeft;
@@ -230,11 +326,14 @@
         timerInterval = setInterval(() => {
             timeLeft--;
             updateUI();
+            if (timeLeft > 0) {
+                playTickSound();
+            }
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 isRunning = false;
                 startBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span> Start Session';
-                alert('Session Finished!');
+                playBellSound();
             }
         }, 1000);
     }
@@ -301,10 +400,7 @@
                 timeLeft = parseInt(valEl.textContent) * 60;
                 totalTime = timeLeft;
                 updateUI();
-                
-                // Visual feedback for mode selection (optional, but good for UX)
-                document.querySelectorAll('section > div').forEach(el => el.classList.remove('border-primary'));
-                valEl.closest('.group').classList.add('border-primary');
+                updateModeDisplay();
             }
         });
     }
@@ -315,5 +411,6 @@
 
     // Initial UI state
     updateUI();
+    updateModeDisplay();
     window.addEventListener('resize', updateProgress);
 </script></body></html>
