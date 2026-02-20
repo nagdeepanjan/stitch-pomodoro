@@ -15,6 +15,7 @@
                 extend: {
                     colors: {
                         "primary": "#b22222",
+                        "accent": "#ffd700",
                         "background-light": "#fff5f5",
                         "background-dark": "#1a0505",
                     },
@@ -47,8 +48,8 @@
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-row"><!-- Desktop Sidebar -->
 <aside class="hidden md:flex flex-col w-64 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-background-dark/50 p-6 h-screen sticky top-0">
 <div class="flex items-center gap-3 mb-10 px-2">
-<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-white">timer</span>
+<div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-background-dark">timer</span>
 </div>
 <span class="font-bold text-xl tracking-tight">ZenFocus</span>
 </div>
@@ -56,14 +57,6 @@
 <a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-bold" href="#">
 <span class="material-symbols-outlined">timer</span>
             Timer
-        </a>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors font-medium" href="#">
-<span class="material-symbols-outlined">bar_chart</span>
-            Stats
-        </a>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors font-medium" href="#">
-<span class="material-symbols-outlined">settings</span>
-            Settings
         </a>
 </nav>
 <div class="mt-auto">
@@ -95,7 +88,7 @@
 <div class="relative flex items-center justify-center">
 <svg class="w-72 h-72 md:w-96 md:h-96">
 <circle class="md:cx-192 md:cy-192 md:r-180" cx="144" cy="144" fill="transparent" r="135" stroke="currentColor" stroke-width="8"></circle>
-<circle class="md:cx-192 md:cy-192 md:r-180" cx="144" cy="144" fill="transparent" id="progress-ring" r="135" stroke="currentColor" stroke-dasharray="848" stroke-dashoffset="212" stroke-linecap="round" stroke-width="8"></circle>
+<circle class="md:cx-192 md:cy-192 md:r-180 text-primary" cx="144" cy="144" fill="transparent" id="progress-ring" r="135" stroke="currentColor" stroke-dasharray="848" stroke-dashoffset="212" stroke-linecap="round" stroke-width="8"></circle>
 </svg>
 <style>
                 @media (min-width: 768px) {
@@ -123,26 +116,26 @@
 </button>
 </div>
 </div>
-<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl flex flex-col items-center gap-3 hover:border-primary/30 transition-colors group cursor-pointer">
-<span class="text-[11px] uppercase font-bold text-slate-500 tracking-wider group-hover:text-primary transition-colors">Short Break</span>
+<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl flex flex-col items-center gap-3 hover:border-accent/30 transition-colors group cursor-pointer">
+<span class="text-[11px] uppercase font-bold text-slate-500 tracking-wider group-hover:text-accent transition-colors">Short Break</span>
 <div class="flex items-center gap-4">
-<button class="text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg p-1 transition-all" id="short-minus">
+<button class="text-slate-400 hover:text-accent hover:bg-accent/10 rounded-lg p-1 transition-all" id="short-minus">
 <span class="material-symbols-outlined">remove</span>
 </button>
 <span class="font-bold text-2xl w-8 text-center" id="short-val">05</span>
-<button class="text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg p-1 transition-all" id="short-plus">
+<button class="text-slate-400 hover:text-accent hover:bg-accent/10 rounded-lg p-1 transition-all" id="short-plus">
 <span class="material-symbols-outlined">add</span>
 </button>
 </div>
 </div>
-<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl flex flex-col items-center gap-3 hover:border-primary/30 transition-colors group cursor-pointer">
-<span class="text-[11px] uppercase font-bold text-slate-500 tracking-wider group-hover:text-primary transition-colors">Long Break</span>
+<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl flex flex-col items-center gap-3 hover:border-accent/30 transition-colors group cursor-pointer">
+<span class="text-[11px] uppercase font-bold text-slate-500 tracking-wider group-hover:text-accent transition-colors">Long Break</span>
 <div class="flex items-center gap-4">
-<button class="text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg p-1 transition-all" id="long-minus">
+<button class="text-slate-400 hover:text-accent hover:bg-accent/10 rounded-lg p-1 transition-all" id="long-minus">
 <span class="material-symbols-outlined">remove</span>
 </button>
 <span class="font-bold text-2xl w-8 text-center" id="long-val">15</span>
-<button class="text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg p-1 transition-all" id="long-plus">
+<button class="text-slate-400 hover:text-accent hover:bg-accent/10 rounded-lg p-1 transition-all" id="long-plus">
 <span class="material-symbols-outlined">add</span>
 </button>
 </div>
@@ -177,14 +170,6 @@
 <a class="flex flex-col items-center gap-1 text-primary" href="#">
 <span class="material-symbols-outlined">timer</span>
 <span class="text-[10px] font-bold uppercase tracking-widest">Timer</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">bar_chart</span>
-<span class="text-[10px] font-bold uppercase tracking-widest">Stats</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-[10px] font-bold uppercase tracking-widest">Settings</span>
 </a>
 </nav><script>
     const timerDisplay = document.getElementById('timer-display');
@@ -284,13 +269,52 @@
         modeBadgeText.textContent = config.badge;
         modeTitle.textContent = config.title;
 
+        // Mode badge
+        const modeBadge = document.getElementById('mode-badge');
+        const badgeDot = modeBadge.querySelector('span:first-child');
+
+        if (currentMode === 'focus') {
+            modeBadge.classList.remove('bg-accent/10', 'border-accent/20');
+            modeBadge.classList.add('bg-primary/10', 'border-primary/20');
+            badgeDot.classList.remove('bg-accent');
+            badgeDot.classList.add('bg-primary');
+            modeBadgeText.classList.remove('text-accent');
+            modeBadgeText.classList.add('text-primary');
+        } else {
+            modeBadge.classList.remove('bg-primary/10', 'border-primary/20');
+            modeBadge.classList.add('bg-accent/10', 'border-accent/20');
+            badgeDot.classList.remove('bg-primary');
+            badgeDot.classList.add('bg-accent');
+            modeBadgeText.classList.remove('text-primary');
+            modeBadgeText.classList.add('text-accent');
+        }
+
+        // Timer ring
+        if (currentMode === 'focus') {
+            progressRing.classList.remove('text-accent');
+            progressRing.classList.add('text-primary');
+        } else {
+            progressRing.classList.remove('text-primary');
+            progressRing.classList.add('text-accent');
+        }
+
+        // Start button
+        const startBtn = document.getElementById('start-btn');
+        if (currentMode === 'focus') {
+            startBtn.classList.remove('bg-accent', 'text-background-dark', 'shadow-accent/20');
+            startBtn.classList.add('bg-primary', 'text-white', 'shadow-primary/20');
+        } else {
+            startBtn.classList.remove('bg-primary', 'text-white', 'shadow-primary/20');
+            startBtn.classList.add('bg-accent', 'text-background-dark', 'shadow-accent/20');
+        }
+
         // Update card highlights
         document.querySelectorAll('section.grid > div').forEach(el => {
-            el.classList.remove('border-primary', 'border-primary/50');
+            el.classList.remove('border-primary', 'border-accent');
         });
         const activeCard = document.getElementById(`${currentMode}-val`);
         if (activeCard) {
-            activeCard.closest('.group').classList.add('border-primary');
+            activeCard.closest('.group').classList.add(currentMode === 'focus' ? 'border-primary' : 'border-accent');
         }
     }
 
