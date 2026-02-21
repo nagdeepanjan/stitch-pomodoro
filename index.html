@@ -59,7 +59,7 @@
 <span class="font-bold text-xl tracking-tight text-white">ZenFocus</span>
 </div>
 <nav class="flex-1 flex flex-col gap-2">
-<button class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl transition-colors text-slate-400 hover:text-white font-semibold" id="stats-btn">
+<button class="flex items-center gap-3 px-4 py-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-600 dark:text-slate-400 font-semibold" id="stats-btn">
 <span class="material-symbols-outlined">analytics</span>
             Statistics
         </button>
@@ -68,9 +68,7 @@
 <div class="mb-6 px-2">
 <div class="flex items-center justify-between mb-4">
 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Theme</span>
-<button class="p-1 hover:bg-slate-800 rounded-md transition-colors" id="dark-mode-toggle" title="Toggle Dark Mode">
-<span class="material-symbols-outlined text-slate-500 text-sm" id="dark-mode-icon">dark_mode</span>
-</button>
+<span class="material-symbols-outlined text-slate-400 text-sm">palette</span>
 </div>
 <div class="flex items-center gap-3" id="theme-selector">
 <button class="theme-option w-6 h-6 rounded-full border-2 border-primary bg-[#b22222]" data-theme="default" title="Default"></button>
@@ -79,27 +77,27 @@
 <button class="theme-option w-6 h-6 rounded-full border-2 border-transparent bg-[#4b0082]" data-theme="midnight" title="Midnight"></button>
 </div>
 </div>
-<div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+<div class="p-4 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800">
 <div class="flex items-center justify-between mb-4">
 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Ambient Audio</span>
-<span class="material-symbols-outlined text-slate-500 text-sm">volume_up</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">volume_up</span>
 </div>
 <div class="grid grid-cols-2 gap-2" id="audio-selector">
-<button class="audio-option p-2 rounded-xl border border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-slate-950 group" data-sound="none">
-<span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary">volume_off</span>
-<span class="text-[8px] font-bold uppercase text-slate-400">None</span>
+<button class="audio-option p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-white dark:bg-slate-900 group" data-sound="none">
+<span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-primary">volume_off</span>
+<span class="text-[8px] font-bold uppercase">None</span>
 </button>
 <button class="audio-option p-2 rounded-xl border border-primary flex flex-col items-center gap-1 hover:border-primary transition-all bg-primary/10 text-primary group" data-sound="clock">
 <span class="material-symbols-outlined text-sm group-hover:text-primary">timer</span>
 <span class="text-[8px] font-bold uppercase">Clock</span>
 </button>
-<button class="audio-option p-2 rounded-xl border border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-slate-950 group" data-sound="rain">
-<span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary">water_drop</span>
-<span class="text-[8px] font-bold uppercase text-slate-400">Rain</span>
+<button class="audio-option p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-white dark:bg-slate-900 group" data-sound="rain">
+<span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-primary">water_drop</span>
+<span class="text-[8px] font-bold uppercase">Rain</span>
 </button>
-<button class="audio-option p-2 rounded-xl border border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-slate-950 group" data-sound="white">
-<span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary">air</span>
-<span class="text-[8px] font-bold uppercase text-slate-400">White</span>
+<button class="audio-option p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-white dark:bg-slate-900 group" data-sound="white">
+<span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-primary">air</span>
+<span class="text-[8px] font-bold uppercase">White</span>
 </button>
 </div>
 </div>
@@ -305,15 +303,13 @@
     function updateAudioUI() {
         audioOptions.forEach(opt => {
             if (opt.dataset.sound === currentSound) {
-                opt.classList.remove('border-slate-800', 'bg-slate-950', 'text-slate-400');
+                opt.classList.remove('border-slate-200', 'dark:border-slate-800', 'bg-white', 'dark:bg-slate-900');
                 opt.classList.add('border-primary', 'bg-primary/10', 'text-primary');
-                opt.querySelector('span').classList.remove('text-slate-500');
+                opt.querySelector('span').classList.remove('text-slate-400');
             } else {
-                opt.classList.add('border-slate-800', 'bg-slate-950');
+                opt.classList.add('border-slate-200', 'dark:border-slate-800', 'bg-white', 'dark:bg-slate-900');
                 opt.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
-                opt.querySelector('span').classList.add('text-slate-500');
-                const label = opt.querySelector('span:last-child');
-                if (label) label.classList.add('text-slate-400');
+                opt.querySelector('span').classList.add('text-slate-400');
             }
         });
         const labels = { none: 'Muted', clock: 'Clock Ticks', rain: 'Rain Shower', white: 'White Noise' };
@@ -736,32 +732,8 @@
         opt.addEventListener('click', () => applyTheme(opt.dataset.theme));
     });
 
-    // Dark Mode Toggle
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    const darkModeIcon = document.getElementById('dark-mode-icon');
-
-    function updateDarkModeUI() {
-        const isDark = document.documentElement.classList.contains('dark');
-        darkModeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
-        localStorage.setItem('zenfocus_dark_mode', isDark);
-    }
-
-    darkModeToggle.addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
-        updateDarkModeUI();
-    });
-
     // Initial UI state
     const savedTheme = localStorage.getItem('zenfocus_theme') || 'default';
-    const savedDarkMode = localStorage.getItem('zenfocus_dark_mode');
-
-    if (savedDarkMode === 'false') {
-        document.documentElement.classList.remove('dark');
-    } else {
-        document.documentElement.classList.add('dark');
-    }
-
-    updateDarkModeUI();
     applyTheme(savedTheme);
     updateUI();
     updateModeDisplay();
