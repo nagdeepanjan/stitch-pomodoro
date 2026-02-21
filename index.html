@@ -7,17 +7,16 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#b22222",
-                        "accent": "#ffd700",
-                        "background-light": "#fff5f5",
-                        "background-dark": "#1a0505",
+                        "primary": "var(--color-primary)",
+                        "accent": "var(--color-accent)",
+                        "background-light": "var(--color-background-light)",
+                        "background-dark": "var(--color-background-dark)",
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
@@ -33,6 +32,12 @@
         }
     </script>
 <style>
+        :root {
+            --color-primary: #b22222;
+            --color-accent: #ffd700;
+            --color-background-light: #fff5f5;
+            --color-background-dark: #1a0505;
+        }
         .timer-ring {
             transition: stroke-dashoffset 0.35s;
             transform: rotate(-90deg);
@@ -53,25 +58,57 @@
 </div>
 <span class="font-bold text-xl tracking-tight">ZenFocus</span>
 </div>
+<nav class="flex-1 flex flex-col gap-2">
+<button class="flex items-center gap-3 px-4 py-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-600 dark:text-slate-400 font-semibold" id="stats-btn">
+<span class="material-symbols-outlined">analytics</span>
+            Statistics
+        </button>
+</nav>
 <div class="mt-auto">
+<div class="mb-6 px-2">
+<div class="flex items-center justify-between mb-4">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Theme</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">palette</span>
+</div>
+<div class="flex items-center gap-3" id="theme-selector">
+<button class="theme-option w-6 h-6 rounded-full border-2 border-primary bg-[#b22222]" data-theme="default" title="Default"></button>
+<button class="theme-option w-6 h-6 rounded-full border-2 border-transparent bg-[#2d5a27]" data-theme="forest" title="Forest"></button>
+<button class="theme-option w-6 h-6 rounded-full border-2 border-transparent bg-[#1e4d6b]" data-theme="ocean" title="Ocean"></button>
+<button class="theme-option w-6 h-6 rounded-full border-2 border-transparent bg-[#4b0082]" data-theme="midnight" title="Midnight"></button>
+</div>
+</div>
 <div class="p-4 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800">
 <div class="flex items-center justify-between mb-4">
-<span class="text-xs font-bold uppercase tracking-wider text-slate-500">Audio Settings</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Ambient Audio</span>
 <span class="material-symbols-outlined text-slate-400 text-sm">volume_up</span>
 </div>
-<div class="flex items-center justify-between">
-<span class="text-sm font-semibold">Clock Ticks</span>
-<label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" id="desktop-audio-toggle" type="checkbox" value=""/>
-<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-</label>
+<div class="grid grid-cols-2 gap-2" id="audio-selector">
+<button class="audio-option p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-white dark:bg-slate-900 group" data-sound="none">
+<span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-primary">volume_off</span>
+<span class="text-[8px] font-bold uppercase">None</span>
+</button>
+<button class="audio-option p-2 rounded-xl border border-primary flex flex-col items-center gap-1 hover:border-primary transition-all bg-primary/10 text-primary group" data-sound="clock">
+<span class="material-symbols-outlined text-sm group-hover:text-primary">timer</span>
+<span class="text-[8px] font-bold uppercase">Clock</span>
+</button>
+<button class="audio-option p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-white dark:bg-slate-900 group" data-sound="rain">
+<span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-primary">water_drop</span>
+<span class="text-[8px] font-bold uppercase">Rain</span>
+</button>
+<button class="audio-option p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center gap-1 hover:border-primary transition-all bg-white dark:bg-slate-900 group" data-sound="white">
+<span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-primary">air</span>
+<span class="text-[8px] font-bold uppercase">White</span>
+</button>
 </div>
 </div>
 </div>
 </aside>
 <!-- Main Content -->
 <div class="flex-1 flex flex-col items-center overflow-y-auto pb-12">
-<header class="w-full max-w-4xl flex flex-col items-center gap-2 mt-8 md:mt-12">
+<header class="w-full max-w-4xl flex flex-col items-center gap-2 mt-8 md:mt-12 relative">
+<button class="md:hidden absolute top-0 right-6 p-2 bg-slate-100 dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800" id="mobile-stats-btn">
+<span class="material-symbols-outlined">analytics</span>
+</button>
 <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20" id="mode-badge">
 <span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
 <span class="text-primary text-xs font-bold uppercase tracking-widest" id="mode-badge-text">Focus Session</span>
@@ -144,22 +181,65 @@
 <span class="material-symbols-outlined">restart_alt</span>
 </button>
 </section>
-<footer class="w-full max-w-4xl flex items-center justify-between pt-8 mt-auto px-6 border-t border-slate-200 dark:border-slate-800 md:hidden">
+<footer class="w-full max-w-4xl flex items-center justify-between pt-8 mt-auto px-6 border-t border-slate-200 dark:border-slate-800 md:hidden py-4">
 <div class="flex items-center gap-3">
 <div class="bg-primary/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-primary">volume_up</span>
+<span class="material-symbols-outlined text-primary">music_note</span>
 </div>
 <div class="flex flex-col">
-<span class="text-sm font-semibold">Clock Ticks</span>
-<span class="text-[10px] text-slate-50 text-slate-500 uppercase font-bold">Ambient Audio</span>
+<span class="text-sm font-semibold" id="mobile-audio-label">Clock Ticks</span>
+<span class="text-[10px] text-slate-500 uppercase font-bold">Ambient Audio</span>
 </div>
 </div>
-<label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" id="audio-toggle" type="checkbox" value=""/>
-<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-</label>
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl font-bold text-xs" id="mobile-audio-btn">
+            Change
+        </button>
 </footer>
-</div><script>
+</div>
+<!-- Statistics Modal -->
+<div class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4" id="stats-modal">
+<div class="bg-background-light dark:bg-background-dark w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh]">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h2 class="text-xl font-bold">Focus Statistics</h2>
+</div>
+<button class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors" id="close-stats">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Today</span>
+<div class="text-2xl font-bold mt-1" id="stats-today">0m</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Sessions</span>
+<div class="text-2xl font-bold mt-1" id="stats-sessions">0</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Streak</span>
+<div class="text-2xl font-bold mt-1" id="stats-streak">0d</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Total</span>
+<div class="text-2xl font-bold mt-1" id="stats-total">0h</div>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="font-bold text-sm uppercase tracking-widest text-slate-500">Last 7 Days</h3>
+<div class="h-48 flex items-end justify-between gap-2 px-2" id="stats-chart">
+<!-- Chart bars will be injected here -->
+</div>
+<div class="flex justify-between px-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="stats-chart-labels">
+<!-- Labels will be injected here -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
     const timerDisplay = document.getElementById('timer-display');
     const progressRing = document.getElementById('progress-ring');
     const startBtn = document.getElementById('start-btn');
@@ -209,31 +289,111 @@
     }
     const modeBadgeText = document.getElementById('mode-badge-text');
     const modeTitle = document.getElementById('mode-title');
-    const audioToggle = document.getElementById('audio-toggle');
-    const desktopAudioToggle = document.getElementById('desktop-audio-toggle');
-
     const modeConfig = {
         focus: { badge: 'Focus Session', title: 'Deep Work' },
         short: { badge: 'Short Break', title: 'Take a Breather' },
         long:  { badge: 'Long Break',  title: 'Recharge' },
     };
 
-    // Sync the two audio toggles
-    if (audioToggle && desktopAudioToggle) {
-        audioToggle.addEventListener('change', () => { desktopAudioToggle.checked = audioToggle.checked; });
-        desktopAudioToggle.addEventListener('change', () => { audioToggle.checked = desktopAudioToggle.checked; });
+    let currentSound = 'clock';
+    const audioOptions = document.querySelectorAll('.audio-option');
+    const mobileAudioBtn = document.getElementById('mobile-audio-btn');
+    const mobileAudioLabel = document.getElementById('mobile-audio-label');
+
+    function updateAudioUI() {
+        audioOptions.forEach(opt => {
+            if (opt.dataset.sound === currentSound) {
+                opt.classList.remove('border-slate-200', 'dark:border-slate-800', 'bg-white', 'dark:bg-slate-900');
+                opt.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+                opt.querySelector('span').classList.remove('text-slate-400');
+            } else {
+                opt.classList.add('border-slate-200', 'dark:border-slate-800', 'bg-white', 'dark:bg-slate-900');
+                opt.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+                opt.querySelector('span').classList.add('text-slate-400');
+            }
+        });
+        const labels = { none: 'Muted', clock: 'Clock Ticks', rain: 'Rain Shower', white: 'White Noise' };
+        if (mobileAudioLabel) mobileAudioLabel.textContent = labels[currentSound];
     }
 
-    function isTickEnabled() {
-        if (audioToggle) return audioToggle.checked;
-        if (desktopAudioToggle) return desktopAudioToggle.checked;
-        return false;
+    audioOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+            currentSound = opt.dataset.sound;
+            updateAudioUI();
+            if (isRunning) playAmbient();
+        });
+    });
+
+    if (mobileAudioBtn) {
+        mobileAudioBtn.addEventListener('click', () => {
+            const sounds = ['none', 'clock', 'rain', 'white'];
+            const idx = sounds.indexOf(currentSound);
+            currentSound = sounds[(idx + 1) % sounds.length];
+            updateAudioUI();
+            if (isRunning) playAmbient();
+        });
+    }
+
+    // Ambient Sound Synthesis
+    let rainNode = null;
+    let whiteNoiseNode = null;
+    let mainAudioCtx = null;
+
+    function initAudio() {
+        if (!mainAudioCtx) {
+            mainAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (mainAudioCtx.state === 'suspended') mainAudioCtx.resume();
+    }
+
+    function createWhiteNoise() {
+        const bufferSize = 2 * mainAudioCtx.sampleRate;
+        const noiseBuffer = mainAudioCtx.createBuffer(1, bufferSize, mainAudioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+        }
+        const whiteNoise = mainAudioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+        return whiteNoise;
+    }
+
+    function playAmbient() {
+        stopAmbient();
+        if (currentSound === 'none' || !isRunning) return;
+
+        initAudio();
+        if (currentSound === 'white') {
+            whiteNoiseNode = createWhiteNoise();
+            const gain = mainAudioCtx.createGain();
+            gain.gain.value = 0.05;
+            whiteNoiseNode.connect(gain);
+            gain.connect(mainAudioCtx.destination);
+            whiteNoiseNode.start();
+        } else if (currentSound === 'rain') {
+            rainNode = createWhiteNoise();
+            const filter = mainAudioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 800;
+            const gain = mainAudioCtx.createGain();
+            gain.gain.value = 0.15;
+            rainNode.connect(filter);
+            filter.connect(gain);
+            gain.connect(mainAudioCtx.destination);
+            rainNode.start();
+        }
+    }
+
+    function stopAmbient() {
+        if (whiteNoiseNode) { try { whiteNoiseNode.stop(); } catch(e) {} whiteNoiseNode = null; }
+        if (rainNode) { try { rainNode.stop(); } catch(e) {} rainNode = null; }
     }
 
     // Clock tick using Web Audio API
     let tickAudioCtx = null;
     function playTickSound() {
-        if (!isTickEnabled()) return;
+        if (currentSound !== 'clock') return;
         if (!tickAudioCtx || tickAudioCtx.state === 'closed') {
             tickAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
@@ -356,6 +516,7 @@
 
     function startTimer() {
         isRunning = true;
+        playAmbient();
         startBtn.innerHTML = '<span class="material-symbols-outlined">pause</span> Pause Session';
         timerInterval = setInterval(() => {
             timeLeft--;
@@ -368,12 +529,16 @@
                 isRunning = false;
                 startBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span> Start Session';
                 playBellSound();
+                if (currentMode === 'focus') {
+                    recordSession(parseInt(focusVal.textContent));
+                }
             }
         }, 1000);
     }
 
     function pauseTimer() {
         isRunning = false;
+        stopAmbient();
         clearInterval(timerInterval);
         startBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span> Start Session';
     }
@@ -443,7 +608,133 @@
     setupAdjustment('short');
     setupAdjustment('long');
 
+    // Stats Logic
+    function recordSession(durationMinutes) {
+        const stats = JSON.parse(localStorage.getItem('zenfocus_stats') || '[]');
+        stats.push({
+            date: new Date().toISOString().split('T')[0],
+            duration: durationMinutes,
+            timestamp: Date.now()
+        });
+        localStorage.setItem('zenfocus_stats', JSON.stringify(stats));
+    }
+
+    function updateStatsUI() {
+        const stats = JSON.parse(localStorage.getItem('zenfocus_stats') || '[]');
+        const today = new Date().toISOString().split('T')[0];
+
+        const todayMinutes = stats
+            .filter(s => s.date === today)
+            .reduce((acc, s) => acc + s.duration, 0);
+
+        const totalMinutes = stats.reduce((acc, s) => acc + s.duration, 0);
+        const totalSessions = stats.length;
+
+        // Calculate streak
+        let streak = 0;
+        const dates = [...new Set(stats.map(s => s.date))].sort().reverse();
+        let checkDate = new Date();
+
+        // If no stats today, check starting from yesterday
+        if (!dates.includes(checkDate.toISOString().split('T')[0])) {
+            checkDate.setDate(checkDate.getDate() - 1);
+        }
+
+        while (dates.includes(checkDate.toISOString().split('T')[0])) {
+            streak++;
+            checkDate.setDate(checkDate.getDate() - 1);
+        }
+
+        document.getElementById('stats-today').textContent = `${todayMinutes}m`;
+        document.getElementById('stats-sessions').textContent = totalSessions;
+        document.getElementById('stats-streak').textContent = `${streak}d`;
+        document.getElementById('stats-total').textContent = `${(totalMinutes / 60).toFixed(1)}h`;
+
+        // Chart
+        const chart = document.getElementById('stats-chart');
+        const labels = document.getElementById('stats-chart-labels');
+        chart.innerHTML = '';
+        labels.innerHTML = '';
+
+        const last7Days = [...Array(7)].map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            return d.toISOString().split('T')[0];
+        }).reverse();
+
+        const maxMinutes = Math.max(...last7Days.map(date =>
+            stats.filter(s => s.date === date).reduce((acc, s) => acc + s.duration, 0)
+        ), 60);
+
+        last7Days.forEach(date => {
+            const dayMinutes = stats.filter(s => s.date === date).reduce((acc, s) => acc + s.duration, 0);
+            const height = (dayMinutes / maxMinutes) * 100;
+
+            const bar = document.createElement('div');
+            bar.className = 'flex-1 bg-primary/20 hover:bg-primary rounded-t-lg transition-all relative group min-h-[4px]';
+            bar.style.height = `${Math.max(height, 2)}%`;
+            bar.innerHTML = `<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">${dayMinutes}m</div>`;
+            chart.appendChild(bar);
+
+            const label = document.createElement('span');
+            label.className = 'flex-1 text-center';
+            label.textContent = new Date(date).toLocaleDateString('en-US', { weekday: 'short' }).charAt(0);
+            labels.appendChild(label);
+        });
+    }
+
+    const statsModal = document.getElementById('stats-modal');
+    const statsBtn = document.getElementById('stats-btn');
+    const mobileStatsBtn = document.getElementById('mobile-stats-btn');
+    const closeStats = document.getElementById('close-stats');
+
+    const toggleStats = () => {
+        const isHidden = statsModal.classList.contains('hidden');
+        if (isHidden) {
+            updateStatsUI();
+            statsModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            statsModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    };
+
+    statsBtn.addEventListener('click', toggleStats);
+    mobileStatsBtn.addEventListener('click', toggleStats);
+    closeStats.addEventListener('click', toggleStats);
+    statsModal.addEventListener('click', (e) => { if (e.target === statsModal) toggleStats(); });
+
+    // Themes Logic
+    const themes = {
+        default: { primary: '#b22222', accent: '#ffd700', bgLight: '#fff5f5', bgDark: '#1a0505' },
+        forest: { primary: '#2d5a27', accent: '#9dc183', bgLight: '#f0f4f0', bgDark: '#051a05' },
+        ocean: { primary: '#1e4d6b', accent: '#7ec8e3', bgLight: '#f0f7f9', bgDark: '#05101a' },
+        midnight: { primary: '#4b0082', accent: '#ff00ff', bgLight: '#f5f0f9', bgDark: '#0a051a' }
+    };
+
+    function applyTheme(themeKey) {
+        const theme = themes[themeKey] || themes.default;
+        const root = document.documentElement;
+        root.style.setProperty('--color-primary', theme.primary);
+        root.style.setProperty('--color-accent', theme.accent);
+        root.style.setProperty('--color-background-light', theme.bgLight);
+        root.style.setProperty('--color-background-dark', theme.bgDark);
+
+        document.querySelectorAll('.theme-option').forEach(opt => {
+            opt.classList.toggle('border-primary', opt.dataset.theme === themeKey);
+            opt.classList.toggle('border-transparent', opt.dataset.theme !== themeKey);
+        });
+        localStorage.setItem('zenfocus_theme', themeKey);
+    }
+
+    document.querySelectorAll('.theme-option').forEach(opt => {
+        opt.addEventListener('click', () => applyTheme(opt.dataset.theme));
+    });
+
     // Initial UI state
+    const savedTheme = localStorage.getItem('zenfocus_theme') || 'default';
+    applyTheme(savedTheme);
     updateUI();
     updateModeDisplay();
     window.addEventListener('resize', updateProgress);
