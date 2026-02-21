@@ -298,11 +298,33 @@
 
         // Update card highlights
         document.querySelectorAll('section.grid > div').forEach(el => {
-            el.classList.remove('border-primary', 'border-accent');
+            el.classList.remove('border-primary', 'border-accent', 'bg-primary/10', 'bg-accent/10', 'ring-1', 'ring-primary', 'ring-accent');
+            el.classList.add('border-slate-200', 'dark:border-slate-800');
+            const label = el.querySelector('span');
+            if (label) {
+                label.classList.remove('text-primary', 'text-accent');
+                label.classList.add('text-slate-500');
+            }
         });
         const activeCard = document.getElementById(`${currentMode}-val`);
         if (activeCard) {
-            activeCard.closest('.group').classList.add(currentMode === 'focus' ? 'border-primary' : 'border-accent');
+            const container = activeCard.closest('.group');
+            container.classList.remove('border-slate-200', 'dark:border-slate-800');
+            const label = container.querySelector('span');
+
+            if (currentMode === 'focus') {
+                container.classList.add('border-primary', 'bg-primary/10', 'ring-1', 'ring-primary');
+                if (label) {
+                    label.classList.remove('text-slate-500');
+                    label.classList.add('text-primary');
+                }
+            } else {
+                container.classList.add('border-accent', 'bg-accent/10', 'ring-1', 'ring-accent');
+                if (label) {
+                    label.classList.remove('text-slate-500');
+                    label.classList.add('text-accent');
+                }
+            }
         }
     }
 
